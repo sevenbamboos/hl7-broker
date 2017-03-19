@@ -1,18 +1,18 @@
-///<reference path="../node_modules/@types/node/index.d.ts" />
-const net = require('net');
-const EventEmitter = require('events').EventEmitter;
+///<reference path="../node_modules/@types/node/index.d.ts"/>
+
+import net = require('net');
+import events = require('events');
 
 export const mllpStartBlock: number = 0x0B;
 export const mllpEndBlock: number = 0x1C;
 export const carriageReturn: number = 0x0D;
 
-class MllpTokenizer {
+class MllpTokenizer extends events.EventEmitter {
 
-  private contents: string = '';
-  private lastByte: number;
-  private eventEmitter: any = new EventEmitter();
+  private contents: any[] = [];
+  private lastByte: any;
 
-  onData(byte: number) {
+  onData(byte: any) {
     if (byte === mllpStartBlock) {
       this.onStartBlock();
     } else if (byte === mllpEndBlock) {
@@ -29,7 +29,7 @@ class MllpTokenizer {
   }
 
   private onStartBlock() {
-    this.contents = '';
+    this.contents = [];
   }
 
   private onEndBlock() {
@@ -38,14 +38,14 @@ class MllpTokenizer {
 
   private onCarriageReturn() {
     if (this.lastByte === mllpEndBlock) {
-      this.eventEmitter.emit('message', this.contents);
+      this.emit('message', Buffer.concat(this.contents));
     } else {
       this.onContents(carriageReturn);
     }
   }
 
-  private onContents(byte: number) {
-    this.contents.concat(String.fromCharCode(byte));
+  private onContents(byte: any) {
+    this.contents.concat(byte);
   }
 
 }
@@ -64,6 +64,7 @@ export class HL7Server {
       //connection.setEncoding(this.encoding);
 
       connection.on('data', (data: Buffer) => {
+        console.log(`onData:${data}`);
         for (const byte of data.values()) {
           this.messageTokenizer.onData(byte);
         }
@@ -76,6 +77,11 @@ export class HL7Server {
     }).on('error', (err: any) => {
       // handle errors here
       throw err;
+    });
+
+    this.messageTokenizer.on('message', (err: any, msg: any) => {
+      if (err) console.error(err);
+      console.log(`Receive msg: ${msg.toString("utf8")}`);
     });
 
     server.listen(4000, () => {
