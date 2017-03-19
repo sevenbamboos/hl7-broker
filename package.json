@@ -1,12 +1,14 @@
 {
-  "name": "hl-7-server",
-  "version": "0.0.0",
-  "description": "hl-7-server",
+  "name": "hl7-broker",
+  "version": "0.0.1",
+  "description": "hl7-broker",
   "license": "MIT",
   "repository": "",
-  "author": "",
+  "author": "Sam Wang",
   "keywords": [
-    ""
+    "HL7",
+    "MLLP",
+    "Healthcare"
   ],
   "files": [
     "lib"
