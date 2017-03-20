@@ -16,7 +16,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "hl7-server": "node lib/hl7-server.app.js",
+    "hl7-server": "npm run build && node lib/hl7-server.app.js",
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",

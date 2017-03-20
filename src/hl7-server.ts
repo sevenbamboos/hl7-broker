@@ -25,7 +25,7 @@ class MllpTokenizer extends events.EventEmitter {
   }
 
   onClose() {
-    console.log(`receive: ${this.contents}`);
+    console.log(`onClose: ${this.contents}`);
   }
 
   private onStartBlock() {
@@ -38,14 +38,14 @@ class MllpTokenizer extends events.EventEmitter {
 
   private onCarriageReturn() {
     if (this.lastByte === mllpEndBlock) {
-      this.emit('message', Buffer.concat(this.contents));
+      this.emit('message', this.contents);
     } else {
       this.onContents(carriageReturn);
     }
   }
 
   private onContents(byte: any) {
-    this.contents.concat(byte);
+    this.contents += byte;
   }
 
 }
@@ -81,10 +81,10 @@ export class HL7Server {
 
     this.messageTokenizer.on('message', (err: any, msg: any) => {
       if (err) console.error(err);
-      console.log(`Receive msg: ${msg.toString("utf8")}`);
+      console.log(`Receive msg: ${msg}`);
     });
 
-    server.listen(4000, () => {
+    server.listen(7777, () => {
       console.log('HL7 server started on', server.address());
     });
   }
