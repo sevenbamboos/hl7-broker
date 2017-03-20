@@ -79,9 +79,8 @@ export class HL7Server {
       throw err;
     });
 
-    this.messageTokenizer.on('message', (err: any, msg: any) => {
-      if (err) console.error(err);
-      console.log(`Receive msg: ${msg}`);
+    this.messageTokenizer.on('message', (msg: any) => {
+      console.log(`Receive msg: ${msg.toString()}`);
     });
 
     server.listen(7777, () => {
