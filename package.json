@@ -1,13 +1,13 @@
 {
-  "name": "hl7-broker",
+  "name": "rx-hl7",
   "version": "0.0.1",
-  "description": "hl7-broker",
+  "description": "HL7 socket server/client, and so on",
   "license": "MIT",
   "repository": "",
   "author": "Sam Wang",
   "keywords": [
     "HL7",
-    "MLLP",
+    "Reactive",
     "Healthcare"
   ],
   "files": [
@@ -16,7 +16,8 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "hl7-server": "npm run build && node lib/hl7-server.app.js",
+    "bad": "npm run build && npm run hl7-server",
+    "hl7-server": "node lib/hl7-server.app.js",
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
@@ -26,6 +27,7 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
+    "rxjs": "^5.2.0"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
