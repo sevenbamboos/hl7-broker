@@ -36,7 +36,7 @@ export class HL7Server {
 
     const msgContents$ = byteSubject.bufferToggle(msgOpenings$, () => msgEndings$);
     const msgContentsSub = msgContents$.subscribe(
-      (data) => console.log(`msgContents:${data.map((x: number) => String.fromCodePoint(x)).join("")}`),
+      (data) => console.log(`msgContents:${data.map((x: number) => console.log(x))}`),
     );
 
     subscriptions.add(msgContentsSub);
