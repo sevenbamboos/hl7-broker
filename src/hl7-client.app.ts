@@ -14,12 +14,12 @@ const client = net.connect({port: 7777}, () => {
     (stat) => { 
       if (stat.isFile()) {
         const fsReadFile = Rx.Observable.bindNodeCallback(fs.readFile);
-        fsReadFile(fn).subscribe(
-          (data) => {
-            const msg = wrapInMLLP(data.toString("utf8"));
-            client.write(msg);
-          },
-          (err) => console.error(err),
+        fsReadFile(fn)
+          .subscribe(
+            (data) => {
+              client.write(wrapInMLLP(data.toString()));
+            },
+            (err) => console.error(err),
         );
       }
     },

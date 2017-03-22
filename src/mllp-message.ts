@@ -4,8 +4,13 @@ const mllpStartBlock: number = 0x0B;
 const mllpEndBlock: number = 0x1C;
 const carriageReturn: number = 0x0D;
 
-export function wrapInMLLP(msg: string): string {
-  return `${mllpStartBlock}${msg}${mllpEndBlock}${carriageReturn}`;
+export function wrapInMLLP(msg: string): string{
+  const buf = Buffer.alloc(msg.length + 3);
+  buf.writeInt8(mllpStartBlock, 0);
+  buf.write(msg, 1);
+  buf.writeInt8(mllpEndBlock, msg.length + 1);
+  buf.writeInt8(carriageReturn, msg.length + 2);
+  return buf.toString();
 }
 
 export class MLLPMessageTokenizer {
@@ -16,7 +21,7 @@ export class MLLPMessageTokenizer {
   public init(): void {
     this.byteSubject = new Rx.Subject();
     this.subscriptions = this.byteSubject.subscribe(
-      (data) => { console.log(`onNext: ${data}`) },
+      (data) => { /*console.log(`onNext: ${data}`)*/ },
       (error) => console.log(`onError: ${error}`),
       () => console.log(`onComplete`),
     );
