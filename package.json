@@ -1,6 +1,6 @@
 {
   "name": "rx-hl7",
-  "version": "0.0.1",
+  "version": "0.2.1",
   "description": "HL7 socket server/client, and so on",
   "license": "MIT",
   "repository": "",
